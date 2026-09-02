@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "appreviewbot": {
+      "type": "http",
+      "url": "https://dash.appreviewbot.com/api/mcp"
+    }
+  }
+}

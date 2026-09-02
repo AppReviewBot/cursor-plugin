@@ -1,0 +1,13 @@
+---
+description: How to use AppReviewBot MCP tools safely and effectively
+alwaysApply: true
+---
+
+# AppReviewBot MCP
+
+- Data is organization-scoped to the authenticated OAuth session. Never invent apps or reviews.
+- Prefer MCP tools over guessing: `list_apps` first, then app/review tools with a real `app_id`.
+- `app_id` may be a store ID, subscription UUID, or connected app name.
+- Use `get_recent_reviews` for rating/store feeds; use `search_app_reviews` for keyword or sentiment topics.
+- `reply_to_review` publishes to Apple/Google — confirm the user wants a live reply, and prefer `preview: true` first.
+- Use OAuth **Connect** on the **appreviewbot** MCP server for read and write access (`mcp:read`, `mcp:write`).

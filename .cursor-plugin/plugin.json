@@ -1,0 +1,21 @@
+{
+  "name": "appreviewbot",
+  "displayName": "AppReviewBot",
+  "version": "1.0.2",
+  "description": "Query app store reviews, analytics, and connected apps from Cursor via AppReviewBot MCP.",
+  "author": {
+    "name": "AppReviewBot",
+    "email": "support@appreviewbot.com"
+  },
+  "homepage": "https://appreviewbot.com",
+  "repository": "https://github.com/AppReviewBot/cursor-plugin",
+  "license": "MIT",
+  "logo": "assets/logo.png",
+  "keywords": ["appreviewbot", "app-store", "google-play", "reviews", "mcp", "analytics", "slack"],
+  "category": "integrations",
+  "tags": ["mcp", "reviews", "app-store", "integrations"],
+  "mcpServers": "./mcp.json",
+  "minClientVersions": {
+    "cursor": "3.13.0"
+  }
+}

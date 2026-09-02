@@ -1,0 +1,6 @@
+# Required for a fresh `pnpm install` to succeed: pnpm 11's build-approval gate
+# blocks package postinstall scripts by default, and `esbuild` (a transitive
+# dependency of tsx/vitest) needs its postinstall to run. Without this,
+# `pnpm install`/`pnpm validate`/`pnpm test` fail on a fresh clone.
+allowBuilds:
+  esbuild: true
