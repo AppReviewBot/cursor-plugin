@@ -1,3 +1,4 @@
 node_modules/
 .pnpm-store/
 .oauth-test-result.json
+.env*

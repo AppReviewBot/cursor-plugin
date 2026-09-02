@@ -25,8 +25,7 @@
   `pnpm install --ignore-workspace` doesn't fail with `ERR_PNPM_IGNORED_BUILDS`.
 
 ### Added
-- Dedicated CI workflow (`.github/workflows/cursor-plugin.yml`), path-filtered to
-  this package.
+- CI workflow (`.github/workflows/ci.yml`) for automated testing and validation.
 
 ## [1.0.1] - 2026-08-22
 
