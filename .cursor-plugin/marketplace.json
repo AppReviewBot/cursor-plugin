@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "AppReviewBot Cursor plugins for app store review monitoring",
-    "version": "1.0.2"
+    "version": "1.0.3"
   },
   "plugins": [
     {
@@ -16,3 +16,4 @@
     }
   ]
 }
+

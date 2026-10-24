@@ -1,7 +1,7 @@
 {
   "name": "appreviewbot",
   "displayName": "AppReviewBot",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Query app store reviews, analytics, and connected apps from Cursor via AppReviewBot MCP.",
   "author": {
     "name": "AppReviewBot",
@@ -19,3 +19,4 @@
     "cursor": "3.13.0"
   }
 }
+

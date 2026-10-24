@@ -1,13 +1,14 @@
 {
   "name": "appreviewbot-cursor-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "private": true,
   "description": "Cursor Marketplace plugin for AppReviewBot — MCP + skills for app store reviews.",
   "type": "module",
   "license": "MIT",
   "packageManager": "pnpm@11.24.0",
   "scripts": {
-    "test": "vitest run",
+    "test": "vitest run && pnpm test:oauth-helper",
+    "test:oauth-helper": "node --test scripts/oauth-pkce-security.test.mjs",
     "test:watch": "vitest",
     "validate": "tsx ./src/validate-cli.ts",
     "smoke": "tsx ./src/smoke-cli.ts",
@@ -25,3 +26,4 @@
     "vitest": "^3.2.4"
   }
 }
+

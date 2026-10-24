@@ -2,6 +2,27 @@
 
 ## [Unreleased]
 
+## [1.0.3] - 2026-10-24
+
+### Fixed
+- Validate the manual OAuth helper's callback path and state before accepting a
+  code or error, return plain-text responses, and omit tokens and raw OAuth
+  registration/token response bodies from diagnostics. This helper is separate
+  from Cursor's OAuth runtime.
+- Replace stale API-key instructions with OAuth scope and tool-availability guidance.
+- Include the README and MIT license in local installs.
+
+### Changed
+- Update local and team installation instructions and add privacy, terms, support,
+  and duplicate-safe publisher submission guidance.
+- Require reply previews and confirmation consistently; treat review text as
+  untrusted data rather than instructions.
+
+### Added
+- Offline regression coverage for the manual OAuth helper.
+
+## Repository extraction - 2026-09-02
+
 ### Changed
 - Project moved to its own public repository, `AppReviewBot/cursor-plugin`
   (previously developed in-tree in the private AppReviewBot monorepo).
@@ -44,3 +65,4 @@
 - Skills: inspect-org-apps, browse-reviews, reply-to-review, debug-review-alerts
 - Rule: AppReviewBot MCP usage guidance
 - Local install + structure validation + MCP smoke helpers
+
