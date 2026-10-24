@@ -3,7 +3,7 @@
  * Copy plugin payload into ~/.cursor/plugins/local/appreviewbot
  *
  * Cursor rejects symlinks whose target is outside ~/.cursor/plugins/local,
- * so we rsync the plugin files instead of ln -s.
+ * so we copy the plugin files instead of linking them.
  */
 import { cpSync, existsSync, lstatSync, mkdirSync, rmSync } from "node:fs"
 import { homedir } from "node:os"
@@ -18,6 +18,8 @@ const COPY_PATHS = [
   ".cursor-plugin",
   "agents",
   "assets",
+  "LICENSE",
+  "README.md",
   "mcp.json",
   "rules",
   "skills"
@@ -50,6 +52,8 @@ for (const rel of COPY_PATHS) {
 console.log(`Installed local Cursor plugin (copied):\n  ${target}`)
 console.log("")
 console.log("Next steps:")
-console.log("1. Cursor Settings → enable \"Include third-party Plugins, Skills, and other configs\"")
-console.log("2. Cmd/Ctrl+Shift+P → Developer: Reload Window")
+console.log("1. Confirm your organization's policy allows local plugin imports")
+console.log("2. Developer: Reload Window → Customize → verify AppReviewBot components")
 console.log("3. Settings → MCP → appreviewbot → Connect (OAuth)")
+console.log("An installed marketplace plugin with the same name takes precedence over this local copy.")
+

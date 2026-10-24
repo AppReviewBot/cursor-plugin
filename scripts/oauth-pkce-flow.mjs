@@ -9,6 +9,7 @@ import { mkdirSync, writeFileSync } from "node:fs"
 import { createServer } from "node:http"
 import { dirname, join } from "node:path"
 import { fileURLToPath } from "node:url"
+import { parseOAuthCallback, readOAuthResponse, summarizeOAuthToken } from "./oauth-pkce-security.mjs"
 
 const mcpUrl = process.env.APPREVIEWBOT_MCP_URL || "https://dash.appreviewbot.com/api/mcp"
 const issuerUrl = mcpUrl.replace(/\/api\/mcp\/?$/, "")
@@ -41,32 +42,24 @@ async function registerClient() {
       scope: "openid profile mcp:read mcp:write"
     })
   })
-  const body = await res.json()
-  if (!res.ok) throw new Error(`register failed ${res.status}: ${JSON.stringify(body)}`)
+  const body = await readOAuthResponse(res, "register")
   return body.client_id
 }
 
-function waitForCallback() {
+function waitForCallback(expectedState) {
   return new Promise((resolve, reject) => {
     const server = createServer((req, res) => {
-      if (!req.url?.startsWith(callbackPath)) {
-        res.writeHead(404)
-        res.end("not found")
-        return
-      }
-      const url = new URL(req.url, redirectUri)
-      const code = url.searchParams.get("code")
-      const error = url.searchParams.get("error")
-      res.writeHead(200, { "Content-Type": "text/html" })
-      res.end(
-        error
-          ? `<h1>OAuth error</h1><pre>${error}</pre><p>You can close this tab.</p>`
-          : "<h1>OAuth OK</h1><p>Token exchange running… You can close this tab.</p>"
-      )
+      const result = parseOAuthCallback(req.url, { redirectUri, callbackPath, expectedState })
+      res.writeHead(result.status, {
+        "Content-Type": "text/plain; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff"
+      })
+      res.end(result.body)
+      if (!result.done) return
       server.close()
-      if (error) reject(new Error(error))
-      else if (!code) reject(new Error("missing code in callback"))
-      else resolve(code)
+      if (result.error) reject(new Error(result.error))
+      else resolve(result.code)
     })
     server.listen(callbackPort, callbackHost, () => {})
     server.on("error", reject)
@@ -87,9 +80,7 @@ async function exchangeToken({ clientId, code, verifier }) {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body
   })
-  const json = await res.json()
-  if (!res.ok) throw new Error(`token failed ${res.status}: ${JSON.stringify(json)}`)
-  return json
+  return readOAuthResponse(res, "token")
 }
 
 async function callListApps(accessToken) {
@@ -154,17 +145,11 @@ async function main() {
   console.log(authUrl.toString())
   console.log(`\nWaiting for callback on ${redirectUri} …`)
 
-  const code = await waitForCallback()
+  const code = await waitForCallback(state)
   console.log("Got authorization code, exchanging token…")
 
   const token = await exchangeToken({ clientId, code, verifier })
-  console.log("Token response:", {
-    token_type: token.token_type,
-    expires_in: token.expires_in,
-    scope: token.scope,
-    access_token_prefix: `${token.access_token?.slice(0, 12)}…`,
-    refresh_token: token.refresh_token ? "present" : "missing"
-  })
+  console.log("Token response:", summarizeOAuthToken(token))
 
   const listApps = await callListApps(token.access_token)
   console.log("list_apps:", listApps.status, listApps.text.slice(0, 500))
@@ -199,3 +184,4 @@ main().catch(err => {
   console.error("OAuth test failed:", err.message)
   process.exit(1)
 })
+
