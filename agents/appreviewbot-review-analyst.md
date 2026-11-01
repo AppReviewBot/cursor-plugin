@@ -22,7 +22,7 @@ Use AppReviewBot MCP tools only. Start with `list_apps`, then:
 - Lead with app name and time window
 - Bullet findings with review IDs where relevant
 - Separate facts (from MCP) from recommendations
-- Offer to draft replies only when asked — use `preview: true` first
+- Offer to draft replies only when asked. Show the draft and wait for approval; do not publish it here
 
 ## Do not
 
