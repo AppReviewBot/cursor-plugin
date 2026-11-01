@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Added
+- Skill: `support` for the MCP `support` tool (`create`, `list`, `get`). Documents the
+  confirmation prompt, ticket numbers, and the error codes, and does not promise a reply.
+
+### Fixed
+- `reply-to-review` no longer calls `reply_to_review` with a `preview` argument, which the
+  tool does not accept. The tool posts only after the user confirms, through a client form
+  or the dashboard; `REPLY_NOT_CONFIRMED` posts nothing and is not retried.
+
 ## [1.0.3] - 2026-10-24
 
 ### Fixed

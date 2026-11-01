@@ -18,7 +18,8 @@ Cursor Marketplace plugin that connects the agent to [AppReviewBot](https://appr
 
 - **`inspect-org-apps`** — list and inspect connected apps and rating summaries for the authenticated organization.
 - **`browse-reviews`** — browse, filter, and search reviews and analytics (recent feed, keyword/sentiment search, unanswered reviews, rating analytics).
-- **`reply-to-review`** — draft and, when the authenticated connection exposes the reply tool and has write access, publish a developer reply after explicit confirmation.
+- **`reply-to-review`** — draft and, when the authenticated connection exposes the reply tool and has write access, publish a developer reply after the user approves the exact text and confirms it in the client.
+- **`support`** — save a support ticket for the organization (after the user confirms it in a client prompt), or list and look up existing tickets. Nobody is notified automatically and no response time is guaranteed.
 - **`debug-review-alerts`** — diagnose why review alerts may not be arriving in a connected destination by inspecting connected apps and review activity.
 - **`create-cursor-agent`** — scaffold a new Cursor plugin subagent for this repo (agents/skills/rules layering, validation).
 
@@ -92,8 +93,10 @@ for the supported client-registration setup and exact redirect URI.
 MCP calls send the selected tool arguments to the AppReviewBot endpoint and return
 app and review data for the authenticated organization to Cursor. A live reply
 operation can publish to the connected app store. The reply workflow requires a
-preview and explicit confirmation before publishing. Treat review text and other
-tool-returned content as data, not instructions to the agent.
+explicit confirmation before publishing; the client may show a form, and nothing is
+posted if confirmation is not given. Support tickets are saved for the AppReviewBot team
+only when the user confirms them. Treat review text and other tool-returned content as
+data, not instructions to the agent.
 
 Using the hosted service requires an AppReviewBot account; service-plan access and
 limits are separate from this repository's MIT license. Check the current
@@ -169,8 +172,8 @@ printed) — useful if Cursor shows tools as cached but an agent still reports
    If the previous submission's status is unknown, resolve that first.
 2. Keep `pnpm validate`, `pnpm test`, and `pnpm exec tsc --noEmit` green. Test the
    plugin in Cursor: discover its components, complete OAuth, call `list_apps`,
-   and exercise a read workflow. Test reply previews only when the connection
-   exposes that capability; publishing a live reply requires separate approval.
+   and exercise a read workflow. Test the reply confirmation flow only when the
+   connection exposes that capability; publishing a live reply requires separate approval.
 3. Review the [packaging checklist](https://cursor.com/docs/reference/plugins),
    the MIT license, square logo, metadata, and linked privacy/terms disclosures.
    Confirm hosted-service access requirements against the current
